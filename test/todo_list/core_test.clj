@@ -6,9 +6,8 @@
   ([description] (item description false))
   ([description checked] {:description description :checked checked}))
 
-(defn todo-list
-  ([] (list))
-  ([items] items))
+(defn todo-list [& items]
+  (reduce conj [] items))
 
 (defn add [list description]
   (cons (item description) list))
@@ -27,10 +26,10 @@
 (deftest todo-list-test
   (let [aDescription "buy milk" anotherDescription "buy sugar"]
     (testing "An item can be added"
-      (is (= (add (todo-list [(item aDescription)]) anotherDescription)
-             (todo-list [(item anotherDescription) (item aDescription)]))))
+      (is (= (add (todo-list (item aDescription)) anotherDescription)
+             (todo-list (item anotherDescription) (item aDescription)))))
     (testing "An item can be checked"
-      (is (= (check (todo-list [(item aDescription)]) aDescription)
-             (todo-list [(item aDescription true)])))
-      (is (= (check (todo-list [(item aDescription) (item anotherDescription)]) aDescription)
-             (todo-list [(item aDescription true) (item anotherDescription)]))))))
+      (is (= (check (todo-list (item aDescription)) aDescription)
+             (todo-list (item aDescription true))))
+      (is (= (check (todo-list (item aDescription) (item anotherDescription)) aDescription)
+             (todo-list (item aDescription true) (item anotherDescription)))))))
