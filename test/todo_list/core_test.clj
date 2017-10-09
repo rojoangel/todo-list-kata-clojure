@@ -2,8 +2,12 @@
   (:require [clojure.test :refer :all]
             [todo-list.core :refer :all]))
 
-(defn add [list name]
-  (cons name list))
+(defn item
+  ([description] (item description false))
+  ([description checked] {:description description :checked checked}))
+
+(defn add [list description]
+  (cons (item description) list))
 
 (defn check-item [item]
   (conj item {:checked true}))
@@ -19,10 +23,10 @@
 (deftest todo-list
   (let [aDescription "buy milk" anotherDescription "buy sugar"]
     (testing "An item can be added"
-      (is (= (add [aDescription] anotherDescription)
-             [anotherDescription aDescription])))
+      (is (= (add [(item aDescription)] anotherDescription)
+             [(item anotherDescription) (item aDescription)])))
     (testing "An item can be checked"
-      (is (= (check [{:description aDescription}] aDescription)
-             [{:description aDescription :checked true}]))
-      (is (= (check [{:description aDescription} {:description anotherDescription}] aDescription)
-             [{:description aDescription :checked true} {:description anotherDescription}])))))
+      (is (= (check [(item aDescription)] aDescription)
+             [(item aDescription true)]))
+      (is (= (check [(item aDescription) (item anotherDescription)] aDescription)
+             [(item aDescription true) (item anotherDescription)])))))
