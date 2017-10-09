@@ -5,11 +5,14 @@
 (defn add [list name]
   (cons name list))
 
+(defn check-item [item]
+  (conj item {:checked true}))
+
 (defn check [list item-to-check]
   (map
     #(if
        (= (:description %) item-to-check)
-       (conj % {:checked true})
+       (check-item %)
        %)
     list))
 
