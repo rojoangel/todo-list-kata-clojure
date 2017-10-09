@@ -10,10 +10,10 @@
 
 (defn check [list item-to-check]
   (map
-    #(if
-       (= (:description %) item-to-check)
-       (check-item %)
-       %)
+    (fn [item]
+      (if (= (:description item) item-to-check)
+        (check-item item)
+        item))
     list))
 
 (deftest todo-list
