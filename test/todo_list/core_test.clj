@@ -18,21 +18,19 @@
 (defn- uncheck-item [item]
   (conj item {:checked false}))
 
-(defn check [list item-to-check]
+(defn- update-matches [list f item-desc]
   (map
     (fn [item]
-      (if (= (:description item) item-to-check)
-        (check-item item)
+      (if (= (:description item) item-desc)
+        (f item)
         item))
     list))
 
-(defn uncheck [list item-to-uncheck]
-  (map
-    (fn [item]
-      (if (= (:description item) item-to-uncheck)
-        (uncheck-item item)
-        item))
-    list))
+(defn check [list item-desc]
+  (update-matches list check-item item-desc))
+
+(defn uncheck [list item-desc]
+  (update-matches list uncheck-item item-desc))
 
 (deftest todo-list-test
   (let [aDescription "buy milk" anotherDescription "buy sugar"]
