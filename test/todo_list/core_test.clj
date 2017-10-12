@@ -18,10 +18,13 @@
 (defn- uncheck-item [item]
   (conj item {:checked false}))
 
+(defn- has-desc? [item desc]
+  (= (:description item) desc))
+
 (defn- update-matches [list f item-desc]
   (map
     (fn [item]
-      (if (= (:description item) item-desc)
+      (if (has-desc? item item-desc)
         (f item)
         item))
     list))
@@ -33,7 +36,7 @@
   (update-matches list uncheck-item item-desc))
 
 (defn remove-item [list item-desc]
-  (remove #(= (:description %) item-desc) list))
+  (remove #(has-desc? % item-desc) list))
 
 (deftest todo-list-test
   (let [aDescription "buy milk" anotherDescription "buy sugar"]
