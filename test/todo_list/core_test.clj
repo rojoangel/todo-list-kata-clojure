@@ -32,6 +32,9 @@
 (defn uncheck [list item-desc]
   (update-matches list uncheck-item item-desc))
 
+(defn remove-item [list item-desc]
+  (remove #(= (:description %) item-desc) list))
+
 (deftest todo-list-test
   (let [aDescription "buy milk" anotherDescription "buy sugar"]
     (testing "An item can be added"
@@ -42,4 +45,7 @@
              (todo-list (item aDescription true) (item anotherDescription)))))
     (testing "An item can be unchecked"
       (is (= (uncheck (todo-list (item aDescription true) (item anotherDescription)) aDescription)
-             (todo-list (item aDescription) (item anotherDescription)))))))
+             (todo-list (item aDescription) (item anotherDescription)))))
+    (testing "An item can be removed"
+      (is (= (remove-item (todo-list (item aDescription true) (item anotherDescription)) aDescription)
+             (todo-list (item anotherDescription)))))))
