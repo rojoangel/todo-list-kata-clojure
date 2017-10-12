@@ -29,7 +29,5 @@
       (is (= (add (todo-list (item aDescription)) anotherDescription)
              (todo-list (item anotherDescription) (item aDescription)))))
     (testing "An item can be checked"
-      (is (= (check (todo-list (item aDescription)) aDescription)
-             (todo-list (item aDescription true))))
       (is (= (check (todo-list (item aDescription) (item anotherDescription)) aDescription)
              (todo-list (item aDescription true) (item anotherDescription)))))))
