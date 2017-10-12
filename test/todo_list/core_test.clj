@@ -9,7 +9,7 @@
 (defn todo-list [& items]
   (reduce conj [] items))
 
-(defn add [list description]
+(defn add-item [list description]
   (cons (item description) list))
 
 (defn- check-item [item]
@@ -38,7 +38,7 @@
 (deftest todo-list-test
   (let [aDescription "buy milk" anotherDescription "buy sugar"]
     (testing "An item can be added"
-      (is (= (add (todo-list (item aDescription)) anotherDescription)
+      (is (= (add-item (todo-list (item aDescription)) anotherDescription)
              (todo-list (item anotherDescription) (item aDescription)))))
     (testing "An item can be checked"
       (is (= (check (todo-list (item aDescription) (item anotherDescription)) aDescription)
