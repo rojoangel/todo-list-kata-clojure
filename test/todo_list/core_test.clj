@@ -15,11 +15,22 @@
 (defn check-item [item]
   (conj item {:checked true}))
 
+(defn uncheck-item [item]
+  (conj item {:checked false}))
+
 (defn check [list item-to-check]
   (map
     (fn [item]
       (if (= (:description item) item-to-check)
         (check-item item)
+        item))
+    list))
+
+(defn uncheck [list item-to-uncheck]
+  (map
+    (fn [item]
+      (if (= (:description item) item-to-uncheck)
+        (uncheck-item item)
         item))
     list))
 
@@ -30,4 +41,7 @@
              (todo-list (item anotherDescription) (item aDescription)))))
     (testing "An item can be checked"
       (is (= (check (todo-list (item aDescription) (item anotherDescription)) aDescription)
-             (todo-list (item aDescription true) (item anotherDescription)))))))
+             (todo-list (item aDescription true) (item anotherDescription)))))
+    (testing "An item can be unchecked"
+      (is (= (uncheck (todo-list (item aDescription true) (item anotherDescription)) aDescription)
+             (todo-list (item aDescription) (item anotherDescription)))))))
