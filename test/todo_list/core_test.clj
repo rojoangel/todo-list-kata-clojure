@@ -12,10 +12,10 @@
 (defn add [list description]
   (cons (item description) list))
 
-(defn check-item [item]
+(defn- check-item [item]
   (conj item {:checked true}))
 
-(defn uncheck-item [item]
+(defn- uncheck-item [item]
   (conj item {:checked false}))
 
 (defn check [list item-to-check]
