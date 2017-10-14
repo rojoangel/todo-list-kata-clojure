@@ -1,25 +1,31 @@
 (ns todo-list.ui
   (:gen-class)
   (:require [clojure.string :as str]
-            [todo-list.core]))
+            [todo-list.core :as todo]))
 
 (declare ui-loop)
 
-(defn- dispatch [command]
-  (case command
+(defn- dispatch [todo-list command item-desc]
+  (->
+    (case command
 
-    :quit
-    (System/exit 0)
+      :quit
+      (System/exit 0)
 
-    ;;otherwise
-    (println "try quit"))
+      :add
+      (todo/add-item todo-list item-desc)
 
-  (ui-loop))
+      ;;otherwise
+      (do
+        (println "try quit")
+        todo-list))
 
-(defn- ui-loop []
-  (let [[command-str & _] (str/split (read-line) #" ")
+    (ui-loop)))
+
+(defn- ui-loop [todo-list]
+  (let [[command-str item-desc & _] (str/split (read-line) #" ")
         command (keyword command-str)]
-    (dispatch command)))
+    (dispatch todo-list command item-desc)))
 
 (defn -main [& args]
-  (ui-loop))
+  (ui-loop (todo/todo-list)))
