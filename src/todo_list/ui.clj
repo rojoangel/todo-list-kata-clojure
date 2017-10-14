@@ -26,6 +26,9 @@
       :add
       (todo/add-item todo-list item-desc)
 
+      :remove
+      (todo/remove-item todo-list item-desc)
+
       ;;otherwise
       (do
         (println "try quit")
