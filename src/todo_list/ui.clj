@@ -3,6 +3,17 @@
   (:require [clojure.string :as str]
             [todo-list.core :as todo]))
 
+(defn show-item [item]
+  (println
+    (if (:checked item)
+      "[x]"
+      "[ ]")
+    (:description item)))
+
+(defn show-list [list]
+  (doseq [item list]
+    (show-item item)))
+
 (declare ui-loop)
 
 (defn- dispatch [todo-list command item-desc]
@@ -23,9 +34,11 @@
     (ui-loop)))
 
 (defn- ui-loop [todo-list]
-  (let [[command-str item-desc & _] (str/split (read-line) #" ")
+  (do
+    (show-list todo-list)
+    (let [[command-str item-desc] (str/split (read-line) #" " 2)
         command (keyword command-str)]
-    (dispatch todo-list command item-desc)))
+      (dispatch todo-list command item-desc))))
 
 (defn -main [& args]
   (ui-loop (todo/todo-list)))
