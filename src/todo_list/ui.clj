@@ -32,6 +32,9 @@
       :check
       (todo/check todo-list item-desc)
 
+      :uncheck
+      (todo/uncheck todo-list item-desc)
+
       ;;otherwise
       (do
         (println "try quit")
